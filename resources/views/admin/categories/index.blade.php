@@ -44,7 +44,7 @@
                                             </td>
                                             <td
                                                 class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                <img src="{{ Storage::url($category->image) }}"
+                                                <img src="{{ $category->image ? Storage::url($category->image) : asset('images/categories/categories-default.jpg') }}"
                                                     class="w-16 h-16 rounded">
                                             </td>
                                             <td

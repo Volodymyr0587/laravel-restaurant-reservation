@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCategoryRequest;
-use App\Models\Category;
 use App\Models\Menu;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -35,9 +37,12 @@ class CategoryController extends Controller
     {
         $categoryData = $request->validated();
 
-        $image = $request->file('image')->store('categories', 'public');
+        if ($request->hasFile('image')) {
+            $image = $request->file('image')->store('categories', 'public');
 
-        $categoryData['image'] = $image;
+            $categoryData['image'] = $image;
+        }
+
 
         Category::create($categoryData);
 
@@ -55,24 +60,40 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $categoryData = $request->validated();
+
+        // Check if a new image is uploaded
+        if ($request->hasFile('image')) {
+            // Delete old image if it exists (logic in Category model in boot method)
+
+            // Store new image
+            $image = $request->file('image')->store('categories', 'public');
+
+            $categoryData['image'] = $image;
+        }
+
+        $category->update($categoryData);
+
+        return to_route('admin.categories.index')->with('success', 'Category updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return to_route('admin.categories.index')->with('success', 'Category deleted successfully');
     }
 }
