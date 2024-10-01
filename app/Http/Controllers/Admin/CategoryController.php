@@ -37,12 +37,7 @@ class CategoryController extends Controller
     {
         $categoryData = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('categories', 'public');
-
-            $categoryData['image'] = $image;
-        }
-
+        $categoryData['image'] = $this->handleImageUpload($request);
 
         Category::create($categoryData);
 
@@ -72,15 +67,7 @@ class CategoryController extends Controller
     {
         $categoryData = $request->validated();
 
-        // Check if a new image is uploaded
-        if ($request->hasFile('image')) {
-            // Delete old image if it exists (logic in Category model in boot method)
-
-            // Store new image
-            $image = $request->file('image')->store('categories', 'public');
-
-            $categoryData['image'] = $image;
-        }
+        $categoryData['image'] = $this->handleImageUpload($request);
 
         $category->update($categoryData);
 
@@ -95,5 +82,14 @@ class CategoryController extends Controller
         $category->delete();
 
         return to_route('admin.categories.index')->with('success', 'Category deleted successfully');
+    }
+
+    protected function handleImageUpload($request)
+    {
+        if ($request->hasFile('image')) {
+            return $request->file('image')->store('categories', 'public');
+        }
+
+        return null;
     }
 }
