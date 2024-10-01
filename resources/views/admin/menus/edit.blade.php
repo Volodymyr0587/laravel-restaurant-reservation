@@ -65,8 +65,7 @@
                                 <select id="categories" name="categories[]" class="form-multiselect block w-full mt-1 rounded-md"
                                     multiple>
                                     @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}"
-                                            {{ in_array($category->id, $menu->categories->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                        <option value="{{ $category->id }}" @selected($menu->categories->contains($category))>
                                             {{ $category->name }}
                                         </option>
                                     @endforeach
