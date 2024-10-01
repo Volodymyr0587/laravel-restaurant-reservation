@@ -1,7 +1,7 @@
 <x-admin-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Admin Dashboard') }}
+            {{ __('Admin Dashboard') }} - {{ __('Menus') }}
         </h2>
     </x-slot>
 
@@ -44,7 +44,7 @@
                                             </td>
                                             <td
                                                 class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                <img src="{{ Storage::url($menu->image) }}" class="w-16 h-16 rounded">
+                                                <img src="{{ $menu->image ? Storage::url($menu->image) : asset('images/menus/menu-default.jpg') }}" class="w-16 h-16 rounded">
                                             </td>
                                             <td
                                                 class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-white">

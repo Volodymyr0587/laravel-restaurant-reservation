@@ -58,6 +58,11 @@
                 </nav>
             </div>
             <main class="m-2 p-8 w-full">
+                @if (isset($header))
+                    <header class="mb-4">
+                        {{ $header }}
+                    </header>
+                @endif
                 {{ $slot }}
             </main>
         </div>
