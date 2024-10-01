@@ -61,7 +61,9 @@
                                 <select id="categories" name="categories[]" class="form-multiselect block w-full mt-1 rounded-md"
                                     multiple>
                                     @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}">
+                                            {{ $category->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
