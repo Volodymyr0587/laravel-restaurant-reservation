@@ -70,7 +70,7 @@
                                             </td>
                                             <td
                                                 class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                                {{ \Carbon\Carbon::parse($reservation->res_date)->format('d/m/Y H:i') }}
+                                                {{ $reservation->res_date->format('d/m/Y H:i') }}
                                             </td>
                                             <td
                                                 class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
