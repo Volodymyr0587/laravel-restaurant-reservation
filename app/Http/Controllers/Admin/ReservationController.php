@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreReservationRequest;
+use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
 use App\Models\Table;
 use Illuminate\Http\Request;
@@ -14,7 +16,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservations = Reservation::all();
+        $reservations = Reservation::with('table')->get();
         return view('admin.reservations.index', compact('reservations'));
     }
 
@@ -30,9 +32,13 @@ class ReservationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreReservationRequest $request)
     {
-        //
+        $reservationData = $request->validated();
+
+        $reservation = Reservation::create($reservationData);
+
+        return to_route('admin.reservations.index')->with('success', 'Reservation created successfully');
     }
 
     /**
@@ -46,24 +52,32 @@ class ReservationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Reservation $reservation)
     {
-        //
+        $tables = Table::with('reservations')->get();
+
+        return view('admin.reservations.edit', compact('reservation', 'tables'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateReservationRequest $request, Reservation $reservation)
     {
-        //
+        $reservationData = $request->validated();
+
+        $reservation->update($reservationData);
+
+        return to_route('admin.reservations.index')->with('success', 'Reservation updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Reservation $reservation)
     {
-        //
+        $reservation->delete();
+
+        return to_route('admin.reservations.index')->with('success', 'Reservation deleted successfully');
     }
 }
