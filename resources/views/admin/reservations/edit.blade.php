@@ -105,7 +105,7 @@
 
                         <div class="mt-6 p-4">
                             <button type="submit"
-                                class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-lg text-white">Store</button>
+                                class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-lg text-white">Update</button>
                         </div>
                     </form>
                 </div>
