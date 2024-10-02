@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use Closure;
 use Carbon\Carbon;
 use App\Models\Table;
+use App\Rules\DateBetween;
+use App\Rules\TimeBetween;
 use App\Models\Reservation;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -34,19 +36,8 @@ class UpdateReservationRequest extends FormRequest
                 'required',
                 'date',
                 'after_or_equal:today', // Date must be in the future or today
-                function (string $attribute, mixed $value, Closure $fail) {
-                    $date = Carbon::parse($value);
-
-                    // Additional logic (optional): If you have business hours or need to enforce a minimum time before reservations
-                    if ($date->isPast()) {
-                        $fail('The reservation date must be in the future.');
-                    }
-
-                    // Example: Prevent reservations for dates more than 1 year in advance
-                    if ($date->greaterThan(Carbon::now()->addYear())) {
-                        $fail('You cannot make a reservation for more than one year in advance.');
-                    }
-                }
+                new DateBetween(),
+                new TimeBetween(),
             ],
             'guest_number' => 'required|integer|min:1',
             'table_id' => [
