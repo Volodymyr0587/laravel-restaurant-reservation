@@ -19,7 +19,8 @@
                             <label for="first_name" class="block text-sm font-medium text-gray-700"> First Name </label>
                             <div class="mt-1">
                                 <input type="text" id="first_name" name="first_name" value="{{ old('first_name', $reservation->first_name) }}"
-                                    class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                                    class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5
+                                    @error('first_name') border-red-400 @enderror" />
                             </div>
                             @error('first_name')
                                 <div class="text-sm text-red-400">{{ $message }}</div>
@@ -29,7 +30,8 @@
                             <label for="last_name" class="block text-sm font-medium text-gray-700"> Last Name </label>
                             <div class="mt-1">
                                 <input type="text" id="last_name" name="last_name"  value="{{ old('last_name', $reservation->last_name) }}"
-                                    class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                                    class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5
+                                    @error('last_name') border-red-400 @enderror" />
                             </div>
                             @error('last_name')
                                 <div class="text-sm text-red-400">{{ $message }}</div>
@@ -39,7 +41,8 @@
                             <label for="email" class="block text-sm font-medium text-gray-700"> Email </label>
                             <div class="mt-1">
                                 <input type="email" id="email" name="email" value="{{ old('email', $reservation->email) }}"
-                                    class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                                    class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5
+                                    @error('email') border-red-400 @enderror" />
                             </div>
                             @error('email')
                                 <div class="text-sm text-red-400">{{ $message }}</div>
@@ -50,7 +53,8 @@
                             </label>
                             <div class="mt-1">
                                 <input type="text" id="tel_number" name="tel_number" value="{{ old('tel_number', $reservation->tel_number) }}"
-                                    class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                                    class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5
+                                    @error('tel_number') border-red-400 @enderror" />
                             </div>
                             @error('tel_number')
                                 <div class="text-sm text-red-400">{{ $message }}</div>
@@ -61,7 +65,8 @@
                             </label>
                             <div class="mt-1">
                                 <input type="datetime-local" id="res_date" name="res_date" value="{{ old('res_date', $reservation->res_date) }}"
-                                    class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                                    class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5
+                                    @error('res_date') border-red-400 @enderror" />
                             </div>
                             @error('res_date')
                                 <div class="text-sm text-red-400">{{ $message }}</div>
@@ -72,7 +77,8 @@
                             </label>
                             <div class="mt-1">
                                 <input type="number" id="guest_number" name="guest_number" value="{{ old('guest_number', $reservation->guest_number) }}"
-                                    class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                                    class="block w-full appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal transition duration-150 ease-in-out sm:text-sm sm:leading-5
+                                    @error('guest_number') border-red-400 @enderror" />
                             </div>
                             @error('guest_number')
                                 <div class="text-sm text-red-400">{{ $message }}</div>
@@ -81,7 +87,7 @@
                         <div class="sm:col-span-6 pt-5">
                             <label for="table" class="block text-sm font-medium text-gray-700">Table</label>
                             <div class="mt-1">
-                                <select id="table_id" name="table_id" class="form-multiselect block w-full mt-1 rounded-md">
+                                <select id="table_id" name="table_id" class="form-multiselect block w-full mt-1 rounded-md @error('table_id') border-red-400 @enderror">
                                     @foreach ($tables as $table)
                                         <option value="{{ $table->id }}"
                                             @selected(old('table_id', isset($reservation) ? $reservation->table_id : '') == $table->id)>
