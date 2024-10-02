@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Closure;
 use Carbon\Carbon;
 use App\Models\Table;
 use App\Models\Reservation;
@@ -33,7 +34,7 @@ class StoreReservationRequest extends FormRequest
                 'required',
                 'date',
                 'after_or_equal:today', // Date must be in the future or today
-                function ($attribute, $value, $fail) {
+                function (string $attribute, mixed $value, Closure $fail) {
                     $date = Carbon::parse($value);
 
                     // Additional logic (optional): If you have business hours or need to enforce a minimum time before reservations
@@ -51,7 +52,7 @@ class StoreReservationRequest extends FormRequest
             'table_id' => [
                 'required',
                 'exists:tables,id', // Make sure the selected table exists
-                function ($attribute, $value, $fail) {
+                function (string $attribute, mixed $value, Closure $fail) {
                     // Check if the table is already reserved on the given date
                     $reservationExists = Reservation::where('table_id', $value)
                         ->whereDate('reservation_date', $this->reservation_date)
