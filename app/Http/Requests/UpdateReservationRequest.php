@@ -8,6 +8,7 @@ use App\Models\Table;
 use App\Rules\DateBetween;
 use App\Rules\TimeBetween;
 use App\Models\Reservation;
+use App\Rules\TableAvailable;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateReservationRequest extends FormRequest
@@ -38,21 +39,12 @@ class UpdateReservationRequest extends FormRequest
                 'after_or_equal:today', // Date must be in the future or today
                 new DateBetween(),
                 new TimeBetween(),
+                new TableAvailable(),
             ],
             'guest_number' => 'required|integer|min:1',
             'table_id' => [
                 'required',
                 'exists:tables,id', // Make sure the selected table exists
-                function (string $attribute, mixed $value, Closure $fail) {
-                    // Check if the table is already reserved on the given date
-                    $reservationExists = Reservation::where('table_id', $value)
-                        ->whereDate('res_date', $this->res_date)
-                        ->exists();
-
-                    if ($reservationExists) {
-                        $fail('The selected table is not available on this date.');
-                    }
-                }
             ],
         ];
     }

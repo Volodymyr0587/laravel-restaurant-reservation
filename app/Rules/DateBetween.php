@@ -17,12 +17,7 @@ class DateBetween implements ValidationRule
     {
         $date = Carbon::parse($value);
 
-        // Additional logic (optional): If you have business hours or need to enforce a minimum time before reservations
-        if ($date->isPast()) {
-            $fail('The reservation date must be in the future.');
-        }
-
-        // Example: Prevent reservations for dates more than 1 year in advance
+        // Example: Prevent reservations for dates more than 1 week in advance
         if ($date->greaterThan(Carbon::now()->addWeek())) {
             $fail('You cannot make a reservation for more than one week in advance.');
         }

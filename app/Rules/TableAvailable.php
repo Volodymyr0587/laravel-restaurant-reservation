@@ -2,31 +2,57 @@
 
 namespace App\Rules;
 
+use Carbon\Carbon;
 use Closure;
-use App\Models\Reservation;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\DataAwareRule;
+use App\Models\Reservation;
 
-class TableAvailable implements ValidationRule
+class TableAvailable implements ValidationRule, DataAwareRule
 {
-    public function __construct(protected $reservationDate)
+    protected $data = [];
+
+    public function setData($data)
     {
-        $this->reservationDate = $reservationDate;
+        $this->data = $data;
+        return $this;
     }
 
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param string $attribute
+     * @param mixed $value
+     * @param \Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        // Check if the table is already reserved on the given date
-        $reservationExists = Reservation::where('table_id', $value)
-            ->whereDate('res_date', $this->reservationDate)
+        $requestedDateTime = Carbon::parse($value);
+
+        $tableId = $this->data['table_id'] ?? null;
+
+        if (!$tableId) {
+            $fail('A table must be selected to check availability.');
+            return;
+        }
+
+        // Assume each reservation lasts 2 hours
+        $reservationDuration = 120; // minutes
+
+        $conflictingReservation = Reservation::where('table_id', $tableId)
+            ->where(function ($query) use ($requestedDateTime, $reservationDuration) {
+                $query->where(function ($q) use ($requestedDateTime, $reservationDuration) {
+                    $q->where('res_date', '<=', $requestedDateTime)
+                      ->where('res_date', '>', $requestedDateTime->copy()->subMinutes($reservationDuration));
+                })->orWhere(function ($q) use ($requestedDateTime, $reservationDuration) {
+                    $q->where('res_date', '>=', $requestedDateTime)
+                      ->where('res_date', '<', $requestedDateTime->copy()->addMinutes($reservationDuration));
+                });
+            })
             ->exists();
 
-        if ($reservationExists) {
-            $fail('The selected table is not available on this date.');
+        if ($conflictingReservation) {
+            $fail('The selected time is not available for this table.');
         }
     }
 }
