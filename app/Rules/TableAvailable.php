@@ -36,23 +36,13 @@ class TableAvailable implements ValidationRule, DataAwareRule
             return;
         }
 
-        // Assume each reservation lasts 2 hours
-        $reservationDuration = 120; // minutes
-
+        // Check for existing reservations on the same date
         $conflictingReservation = Reservation::where('table_id', $tableId)
-            ->where(function ($query) use ($requestedDateTime, $reservationDuration) {
-                $query->where(function ($q) use ($requestedDateTime, $reservationDuration) {
-                    $q->where('res_date', '<=', $requestedDateTime)
-                      ->where('res_date', '>', $requestedDateTime->copy()->subMinutes($reservationDuration));
-                })->orWhere(function ($q) use ($requestedDateTime, $reservationDuration) {
-                    $q->where('res_date', '>=', $requestedDateTime)
-                      ->where('res_date', '<', $requestedDateTime->copy()->addMinutes($reservationDuration));
-                });
-            })
+            ->whereDate('res_date', $requestedDateTime)
             ->exists();
 
         if ($conflictingReservation) {
-            $fail('The selected time is not available for this table.');
+            $fail('The selected table is not available on this date.');
         }
     }
 }

@@ -54,7 +54,7 @@ class StoreReservationRequest extends FormRequest
         $validator->after(function ($validator) {
             $table = Table::find($this->table_id);
             if ($table && $this->guest_number > $table->guest_number) {
-                $validator->errors()->add('guest_number', 'The number of guests exceeds the table capacity.');
+                $validator->errors()->add('guest_number', 'The number of guests exceeds the table capacity. Please choose a table based on the number of guests.');
             }
         });
     }
