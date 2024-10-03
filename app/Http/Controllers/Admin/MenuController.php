@@ -86,9 +86,11 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
+        $menu->categories()->detach();
+
         $menu->delete();
 
-        return to_route('admin.menus.index')->with('success', 'Menu deleted successfully');
+        return to_route('admin.menus.index')->with('danger', 'Menu deleted successfully');
     }
 
     protected function handleImageUpload($request)

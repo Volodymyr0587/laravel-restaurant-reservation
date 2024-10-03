@@ -64,6 +64,52 @@
                         {{ $header }}
                     </header>
                 @endif
+                <div>
+                    @if (session()->has('success'))
+                        <div x-data="{show: true}"
+                            x-init="setTimeout(() => show = false, 4000)"
+                            x-show="show"
+                            class="mt-4 relative flex w-1/2 p-3 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800">
+                            <p>
+                                {{ session('success') }}
+                            </p>
+                            <button @click="show = false"
+                                class="flex items-center justify-center transition-all w-8 h-8 rounded-md text-white hover:bg-white/10 active:bg-white/10 absolute top-1.5 right-1.5" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+                    @endif
+
+                    @if (session()->has('danger'))
+                        <div x-data="{show: true}"
+                            x-init="setTimeout(() => show = false, 4000)"
+                            x-show="show"
+                            class="mt-4 relative flex w-1/2 p-3 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800">
+                            <p>
+                                {{ session('danger') }}
+                            </p>
+                            <button @click="show = false"
+                                class="flex items-center justify-center transition-all w-8 h-8 rounded-md text-white hover:bg-white/10 active:bg-white/10 absolute top-1.5 right-1.5" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+                    @endif
+
+                    @if (session()->has('warning'))
+                        <div x-data="{show: true}"
+                            x-init="setTimeout(() => show = false, 4000)"
+                            x-show="show"
+                            class="mt-4 relative flex w-1/2 p-3 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800">
+                            <p>
+                                {{ session('warning') }}
+                            </p>
+                            <button @click="show = false"
+                                class="flex items-center justify-center transition-all w-8 h-8 rounded-md text-white hover:bg-white/10 active:bg-white/10 absolute top-1.5 right-1.5" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+                    @endif
+                </div>
                 {{ $slot }}
             </main>
         </div>

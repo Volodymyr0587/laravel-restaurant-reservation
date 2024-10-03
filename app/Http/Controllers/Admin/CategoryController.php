@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Menu;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 
@@ -81,7 +79,7 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        return to_route('admin.categories.index')->with('success', 'Category deleted successfully');
+        return to_route('admin.categories.index')->with('danger', 'Category deleted successfully');
     }
 
     protected function handleImageUpload($request)

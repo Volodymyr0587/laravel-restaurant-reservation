@@ -79,6 +79,6 @@ class ReservationController extends Controller
     {
         $reservation->delete();
 
-        return to_route('admin.reservations.index')->with('success', 'Reservation deleted successfully');
+        return to_route('admin.reservations.index')->with('danger', 'Reservation deleted successfully');
     }
 }
