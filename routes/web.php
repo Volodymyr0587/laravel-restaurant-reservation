@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\MenuController;
@@ -11,9 +12,7 @@ use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryControll
 use App\Http\Controllers\Frontend\MenuController as FrontendMenuController;
 use App\Http\Controllers\Frontend\ReservationController as FrontendReservationController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::get('/categories', [FrontendCategoryController::class, 'index'])->name('categories.index');
 Route::get('/categories/{category}', [FrontendCategoryController::class, 'show'])->name('categories.show');
