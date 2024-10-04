@@ -56,7 +56,7 @@ class ReservationController extends Controller
      */
     public function edit(Reservation $reservation)
     {
-        $tables = Table::with('reservations')->get();
+        $tables = Table::where('status', TableStatus::Available)->get();
 
         return view('admin.reservations.edit', compact('reservation', 'tables'));
     }
