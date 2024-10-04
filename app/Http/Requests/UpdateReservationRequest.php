@@ -39,7 +39,7 @@ class UpdateReservationRequest extends FormRequest
                 'after_or_equal:today', // Date must be in the future or today
                 new DateBetween(),
                 new TimeBetween(),
-                new TableAvailable(),
+                new TableAvailable($this->route('reservation')->id),
             ],
             'guest_number' => 'required|integer|min:1',
             'table_id' => [
